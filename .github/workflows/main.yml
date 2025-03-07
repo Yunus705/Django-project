@@ -52,10 +52,10 @@ jobs:
           mv sonar-scanner-4.7.0.2747-linux sonar-scanner
           export PATH=$PATH:$PWD/sonar-scanner/bin
           sonar-scanner \
-            -Dsonar.projectKey=Yunus705_Django-project_bd056fac-88fc-45de-9705-776673713da4 \
-            -Dsonar.organization=Yunus705 \
+            -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+            -Dsonar.organization=$SONAR_ORG \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://3.110.200.197:9000/ \
+            -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.login=$SONAR_TOKEN
 
   deploy:
