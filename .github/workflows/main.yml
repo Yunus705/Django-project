@@ -94,6 +94,6 @@ jobs:
 
             # Build, down, and up the Docker containers
             cd /home/ubuntu/app
-            docker-compose -f /home/ubuntu/app/docker-compose.yml build
-            docker-compose -f /home/ubuntu/app/docker-compose.yml down
-            docker-compose -f /home/ubuntu/app/docker-compose.yml up -d
+            sudo docker-compose -f /home/ubuntu/app/docker-compose.yml build
+            sudo docker-compose -f /home/ubuntu/app/docker-compose.yml down
+            sudo docker-compose -f /home/ubuntu/app/docker-compose.yml up -d
