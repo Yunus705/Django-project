@@ -42,7 +42,6 @@ jobs:
           java-version: '11'
       
       
-
       - name: Run SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
