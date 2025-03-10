@@ -5,27 +5,27 @@ on:
     branches:
       - main
 jobs:
-#   trivy_scan:
-#     name: Trivy Security Scan
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v3
+  trivy_scan:
+    name: Trivy Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-#       - name: Set up Trivy
-#         run: |
-#           wget https://github.com/aquasecurity/trivy/releases/download/v0.60.0/trivy_0.60.0_Linux-64bit.tar.gz
-#           tar -xvzf trivy_0.60.0_Linux-64bit.tar.gz
-#           sudo mv trivy /usr/local/bin/
+      - name: Set up Trivy
+        run: |
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.60.0/trivy_0.60.0_Linux-64bit.tar.gz
+          tar -xvzf trivy_0.60.0_Linux-64bit.tar.gz
+          sudo mv trivy /usr/local/bin/
 
-#       - name: Scan Dockerfile for vulnerabilities
-#         run: trivy config .
+      - name: Scan Dockerfile for vulnerabilities
+        run: trivy config .
 
-#       - name: Build Docker Image for Scanning
-#         run: docker build -t django-app:latest .
+      - name: Build Docker Image for Scanning
+        run: docker build -t django-app:latest .
 
-#       - name: Scan Docker Image for vulnerabilities
-#         run: trivy image django-app:latest
+      - name: Scan Docker Image for vulnerabilities
+        run: trivy image django-app:latest
   
   sonarcloud:
     runs-on: ubuntu-latest
