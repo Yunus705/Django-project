@@ -43,45 +43,45 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.python.version=3
           
-  # deploy:
-  #   name: Deploy Django App
-  #   runs-on: ubuntu-latest
-  #   needs: [trivy_scan, sonar_scan]
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  deploy:
+    name: Deploy Django App
+    runs-on: ubuntu-latest
+    needs: [trivy_scan, sonar_scan]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Install Docker Compose
-  #       run: |
-  #         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  #         sudo chmod +x /usr/local/bin/docker-compose
-  #         docker-compose --version
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
 
-  #     - name: Deploy to EC2
-  #       uses: appleboy/ssh-action@v0.1.8
-  #       with:
-  #         host: ${{ secrets.EC2_HOST }}  # Your EC2's public IP or hostname .
-  #         username: ubuntu  # Assuming your EC2 is running Ubuntu
-  #         key: ${{ secrets.EC2_SSH_KEY }}  # SSH private key stored in GitHub secrets
-  #         script: |
-  #           # Create /home/ubuntu/app directory if it doesn't exist and clone repository
-  #           if [ ! -d "/home/ubuntu/app" ]; then
-  #             echo "Directory /home/ubuntu/app not found. Cloning repository..."
-  #             git clone https://github.com/Yunus705/Django-project.git /home/ubuntu/app
-  #           else
-  #             cd /home/ubuntu/app
-  #             git pull origin main
-  #           fi
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2_HOST }}  # Your EC2's public IP or hostname .
+          username: ubuntu  # Assuming your EC2 is running Ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}  # SSH private key stored in GitHub secrets
+          script: |
+            # Create /home/ubuntu/app directory if it doesn't exist and clone repository
+            if [ ! -d "/home/ubuntu/app" ]; then
+              echo "Directory /home/ubuntu/app not found. Cloning repository..."
+              git clone https://github.com/Yunus705/Django-project.git /home/ubuntu/app
+            else
+              cd /home/ubuntu/app
+              git pull origin main
+            fi
             
-  #           # Install Docker Compose if not already installed
-  #           if ! command -v docker-compose &> /dev/null; then
-  #             echo "Docker Compose not found, installing..."
-  #             sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  #             sudo chmod +x /usr/local/bin/docker-compose
-  #           fi
+            # Install Docker Compose if not already installed
+            if ! command -v docker-compose &> /dev/null; then
+              echo "Docker Compose not found, installing..."
+              sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+            fi
 
-  #           # Build, down, and up the Docker containers
-  #           cd /home/ubuntu/app
-  #           sudo docker-compose -f /home/ubuntu/app/docker-compose.yml build
-  #           sudo docker-compose -f /home/ubuntu/app/docker-compose.yml down
-  #           sudo docker-compose -f /home/ubuntu/app/docker-compose.yml up -d
+            # Build, down, and up the Docker containers
+            cd /home/ubuntu/app
+            sudo docker-compose -f /home/ubuntu/app/docker-compose.yml build
+            sudo docker-compose -f /home/ubuntu/app/docker-compose.yml down
+            sudo docker-compose -f /home/ubuntu/app/docker-compose.yml up -d
